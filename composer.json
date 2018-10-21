@@ -1,0 +1,54 @@
+{
+  "name": "koded/cache-extended",
+  "type": "library",
+  "license": "BSD-3-Clause",
+  "description": "A caching library for PSR-6 using several caching technologies.",
+  "keywords": [
+    "caching",
+    "cache",
+    "memcached",
+    "redis",
+    "json",
+    "file-cache",
+    "psr-6",
+    "php7"
+  ],
+  "authors": [
+    {
+      "name": "Mihail Binev",
+      "homepage": "http://kodeart.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1.4",
+    "psr/cache": "~1",
+    "koded/cache-simple": "dev-2.0-dev"
+  },
+  "autoload": {
+    "psr-0": {
+      "Koded\\Caching\\": ""
+    },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "suggest": {
+    "ext-memcached": "For caching in Memcached",
+    "ext-redis": "For caching in Redis",
+    "ext-igbinary": "For Redis igbinary support",
+    "ext-msgpack": "For de/serializing the cache data with msgpack",
+    "predis/predis": "If you want to use Redis without ext-redis extension"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~7",
+    "mikey179/vfsStream": "~1",
+    "predis/predis": "dev-master"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.x-dev"
+    }
+  }
+}

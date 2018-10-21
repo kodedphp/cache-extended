@@ -1,0 +1,6 @@
+*.php diff=php
+
+/build     export-ignore
+/Tests     export-ignore
+/phpunit.* export-ignore
+/*.yml     export-ignore
