@@ -42,4 +42,4 @@ This library uses the [Koded Simple Cache][koded-cache-simple]. Please see the R
 
 
 
-[koded-cache-simple]: https://github.com/kodedphp/cache-simple
+[koded-cache-simple]: https://github.com/kodedphp/cache-simple#configuration-directives
