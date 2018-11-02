@@ -7,43 +7,44 @@ use Psr\Cache\CacheItemInterface;
 
 abstract class CacheItem implements CacheItemInterface
 {
+    /** @var string */
+    protected $key;
+
     /** @var mixed */
     protected $value;
 
-    /** @var Cache */
-    protected $client;
+    /** @var bool */
+    protected $isHit = false;
 
-    /** @var string */
-    private $key;
+    /** @var int Number of seconds for the expiration time */
+    protected $expiresAt;
 
-    /** @var int Unix timestamp for expiration time */
-    private $expiresAt;
 
-    public function __construct(Cache $client, string $key)
+    public function __construct($key, ?int $ttl)
     {
+        verify_key($key);
         $this->key = $key;
-        $this->client = $client;
+        $this->expiresAt = $ttl;
     }
 
-    public function __destruct()
-    {
-        unset($this->client);
-    }
 
     public function getKey(): string
     {
         return $this->key;
     }
 
+
     public function get()
     {
-        return $this->isHit() ? $this->value : null;
+        return $this->value;
     }
+
 
     public function isHit(): bool
     {
-        return $this->client->has($this->key);
+        return $this->isHit;
     }
+
 
     public function set($value)
     {
@@ -52,34 +53,35 @@ abstract class CacheItem implements CacheItemInterface
         return $this;
     }
 
-    public function expiresAt($expiration)
-    {
-        $this->expiresAt = $expiration;
-
-        return $this;
-    }
 
     public function expiresAfter($time)
     {
-        if (null === $time && null !== $global = $this->client->getTtl()) {
-            $this->expiresAt = time() + cache_ttl($global);
+        // The TTL is calculated in the cache client instance
+        return $this->expiresAt($time);
+    }
 
-            return $this;
+
+    public function expiresAt($expiration)
+    {
+        $this->expiresAt = normalize_ttl($expiration ?? $this->expiresAt);
+
+        if ($this->expiresAt < 1) {
+            $this->isHit = false;
         }
-
-        $seconds = cache_ttl($time);
-        $this->expiresAt = $seconds ? time() + $seconds : null;
 
         return $this;
     }
 
     /**
-     * Returns expiration time for the cache item.
+     * Returns expiration seconds for the cache item.
+     * NULL is reserved for clients who do not support expiry
+     * to implement some custom logic around the TTL.
+     *
      * This method is not part of the PSR-6.
      *
-     * @return int|null|\DateInterval|\DateTimeInterface
+     * @return int|null
      */
-    public function ttl()
+    public function getExpiresAt(): ?int
     {
         return $this->expiresAt;
     }

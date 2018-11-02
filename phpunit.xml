@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7.4/phpunit.xsd"
-         bootstrap="Tests/autoload.php"
+         bootstrap="vendor/autoload.php"
          stopOnFailure="true"
          verbose="true"
          colors="true">
     <testsuites>
-        <testsuite name="Koded PSR-6 Caching Library Test Suite">
+        <testsuite name="Koded Caching Library (PSR-6)">
             <directory>Tests</directory>
         </testsuite>
     </testsuites>
@@ -22,8 +22,6 @@
     </filter>
 
     <php>
-        <ini name="date.timezone" value="UTC"/>
-
         <env name="REDIS_SERVER_HOST" value="redis"/>
         <env name="REDIS_SERVER_PORT" value="6379"/>
     </php>

@@ -2,27 +2,21 @@
 
 namespace Koded\Caching;
 
-use Koded\Caching\Client\{MemcachedClient, MemoryClient, NullClient, PredisClient, RedisClient};
+use Koded\Caching\Client\{FileClient, MemcachedClient, MemoryClient, PredisClient, RedisClient};
 use PHPUnit\Framework\TestCase;
 
 class CachePoolFactoryTest extends TestCase
 {
 
-    public function test_NullClient()
-    {
-        $pool = CachePoolFactory::new('');
-        $this->assertAttributeInstanceOf(NullClient::class, 'client', $pool);
-    }
-
     public function test_MemcachedClient()
     {
-        $pool = CachePoolFactory::new('memcached');
+        $pool = CachePool::use('memcached');
         $this->assertAttributeInstanceOf(MemcachedClient::class, 'client', $pool);
     }
 
     public function test_RedisClient()
     {
-        $pool = CachePoolFactory::new('redis', [
+        $pool = CachePool::use('redis', [
             'host' => getenv('REDIS_SERVER_HOST'),
         ]);
         $this->assertAttributeInstanceOf(RedisClient::class, 'client', $pool);
@@ -30,7 +24,7 @@ class CachePoolFactoryTest extends TestCase
 
     public function test_PredisClient()
     {
-        $pool = CachePoolFactory::new('predis', [
+        $pool = CachePool::use('predis', [
             'host' => getenv('REDIS_SERVER_HOST'),
         ]);
         $this->assertAttributeInstanceOf(PredisClient::class, 'client', $pool);
@@ -38,7 +32,16 @@ class CachePoolFactoryTest extends TestCase
 
     public function test_MemoryClient()
     {
-        $pool = CachePoolFactory::new('memory');
-        $this->assertAttributeInstanceOf(MemoryClient::class, 'client', $pool);
+        $pool1 = CachePool::use('memory');
+        $pool2 = CachePool::use('');
+        $this->assertAttributeInstanceOf(MemoryClient::class, 'client', $pool1);
+        $this->assertAttributeInstanceOf(MemoryClient::class, 'client', $pool2);
+        $this->assertNotSame($pool1, $pool2, 'The singletons are stored by name and their parameters');
+    }
+
+    public function test_FileClient()
+    {
+        $pool = CachePool::use('file');
+        $this->assertAttributeInstanceOf(FileClient::class, 'client', $pool);
     }
 }

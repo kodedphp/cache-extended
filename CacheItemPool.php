@@ -5,100 +5,26 @@ namespace Koded\Caching;
 use Exception;
 use Koded\Caching\Client\CacheClientFactory;
 use Psr\Cache\{CacheItemInterface, CacheItemPoolInterface};
-use Psr\SimpleCache\CacheInterface;
+use function Koded\Stdlib\now;
 
 
 abstract class CacheItemPool implements CacheItemPoolInterface
 {
-    /** @var CacheInterface */
+    /** @var Cache */
     protected $client;
 
     /** @var CacheItemInterface[] */
-    private $deferred = [];
+    protected $deferred = [];
+
 
     abstract public function __construct(CacheClientFactory $factory, string $client);
 
+    // @codeCoverageIgnoreStart
     public function __destruct()
     {
-        unset($this->client);
+        $this->commit();
     }
-
-    public function getItems(array $keys = []): array
-    {
-        $collection = [];
-        foreach ($keys as $key) {
-            $collection[$key] = $this->getItem($key);
-        }
-
-        return $collection;
-    }
-
-    public function getItem($key): CacheItemInterface
-    {
-        if (isset($this->deferred[$key])) {
-            return $this->deferred[$key];
-        }
-
-        try {
-            return (new class($this->client, $key) extends CacheItem
-            {
-            })->set($this->client->get($key));
-
-        } catch (Exception $e) {
-            throw ExtendedCacheException::from($e);
-        }
-    }
-
-    public function hasItem($key): bool
-    {
-        try {
-            return $this->client->has($key);
-        } catch (Exception $e) {
-            throw ExtendedCacheException::from($e);
-        }
-    }
-
-    public function clear(): bool
-    {
-        if ($this->client->clear()) {
-            $this->deferred = [];
-            return true;
-        }
-
-        return false;
-    }
-
-    public function deleteItems(array $keys): bool
-    {
-        $deleted = 0;
-        foreach ($keys as $key) {
-            $this->deleteItem($key) && ++$deleted;
-        }
-
-        return count($keys) === $deleted;
-    }
-
-    public function deleteItem($key): bool
-    {
-        try {
-            if ($this->client->delete($key)) {
-                unset($this->deferred[$key]);
-                return true;
-            }
-
-            return false;
-
-        } catch (Exception $e) {
-            throw ExtendedCacheException::from($e);
-        }
-    }
-
-    public function saveDeferred(CacheItemInterface $item): bool
-    {
-        $this->deferred[$item->getKey()] = $item;
-
-        return true;
-    }
+    // @codeCoverageIgnoreEnd
 
     public function commit(): bool
     {
@@ -111,13 +37,108 @@ abstract class CacheItemPool implements CacheItemPoolInterface
         return empty($this->deferred);
     }
 
+
     public function save(CacheItemInterface $item): bool
     {
         /** @var CacheItem $item */
-        $value = (function() {
-            return $this->value;
-        })->bindTo($item, $item);
+        return $this->client->set($item->getKey(), $item->get(), $item->getExpiresAt());
+    }
 
-        return $this->client->set($item->getKey(), $value(), cache_ttl($item->ttl()));
+
+    public function getItems(array $keys = []): array
+    {
+        $items = [];
+        foreach ($keys as $key) {
+            $items[$key] = $this->getItem($key);
+        }
+
+        return $items;
+    }
+
+
+    public function getItem($key): CacheItemInterface
+    {
+        try {
+            $item = new class($key, $this->client->getTtl()) extends CacheItem {};
+
+            if (false === $this->client->has($key)) {
+                if (isset($this->deferred[$key])) {
+                    return clone $this->deferred[$key];
+                }
+                return $item;
+            }
+
+            (function() {
+                $this->isHit = true;
+
+                return $this;
+            })->call($item);
+
+            return $item->set($this->client->get($key));
+
+        } catch (Exception $e) {
+            throw CachePoolException::from($e);
+        }
+    }
+
+
+    public function hasItem($key): bool
+    {
+        try {
+            return isset($this->deferred[$key]) || $this->client->has($key);
+        } catch (Exception $e) {
+            throw CachePoolException::from($e);
+        }
+    }
+
+
+    public function clear(): bool
+    {
+        if ($cleared = $this->client->clear()) {
+            $this->deferred = [];
+        }
+
+        return $cleared;
+    }
+
+
+    public function deleteItems(array $keys): bool
+    {
+        try {
+            return $this->client->deleteMultiple($keys);
+        } catch (Exception $e) {
+            throw CachePoolException::from($e);
+        }
+    }
+
+
+    public function deleteItem($key): bool
+    {
+        try {
+            if ($deleted = $this->client->delete($key)) {
+                unset($this->deferred[$key]);
+            }
+
+            return $deleted;
+
+        } catch (Exception $e) {
+            throw CachePoolException::from($e);
+        }
+    }
+
+
+    public function saveDeferred(CacheItemInterface $item): bool
+    {
+        /** @var CacheItem $item */
+        if (null !== $item->getExpiresAt() && $item->getExpiresAt() <= now()->getTimestamp()) {
+            return false;
+        }
+
+        $this->deferred[$item->getKey()] = (function() {
+            $this->isHit = true;
+            return $this;
+        })->call($item);
+
+        return true;
     }
 }
