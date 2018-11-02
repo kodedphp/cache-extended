@@ -45,7 +45,7 @@ $cache = CachePool::use('redis');
 
 $item = $cache->getItem('fubar');
 $item->set('some value');
-$item->expiresAfter(new \DateTime('3 days'));
+$item->expiresAfter(new DateTime('3 days'));
 
 $cache->save();
 ```
@@ -82,17 +82,15 @@ $cache->saveDeferred($counter);
 // ... do some stuff
 
 // store this now
-$cache->save($complicatedLogicDependency);
+$cache->save($dependency);
 
 // ... do more stuff
 
 $cache->saveDeferred($updates);
+$cache->saveDeferred($extras);
 
 // Store all deferred items
 $cache->commit();
-
-// ... more stuff?
-$cache->saveDeferred($yourMessedUpState);
 ```
 
 License

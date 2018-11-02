@@ -14,7 +14,7 @@ abstract class CacheItemPool implements CacheItemPoolInterface
     protected $client;
 
     /** @var CacheItemInterface[] */
-    protected $deferred = [];
+    private $deferred = [];
 
 
     abstract public function __construct(CacheClientFactory $factory, string $client);

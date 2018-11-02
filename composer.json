@@ -2,7 +2,7 @@
   "name": "koded/cache-extended",
   "type": "library",
   "license": "BSD-3-Clause",
-  "description": "A caching library for PSR-6 using several caching technologies.",
+  "description": "A PSR-6 caching library with support for several caching technologies.",
   "keywords": [
     "caching",
     "cache",

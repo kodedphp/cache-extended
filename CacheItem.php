@@ -7,17 +7,17 @@ use Psr\Cache\CacheItemInterface;
 
 abstract class CacheItem implements CacheItemInterface
 {
-    /** @var string */
-    protected $key;
-
-    /** @var mixed */
-    protected $value;
-
     /** @var bool */
     protected $isHit = false;
 
+    /** @var string */
+    private $key;
+
+    /** @var mixed */
+    private $value;
+    
     /** @var int Number of seconds for the expiration time */
-    protected $expiresAt;
+    private $expiresAt;
 
 
     public function __construct($key, ?int $ttl)
