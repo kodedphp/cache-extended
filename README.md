@@ -52,10 +52,11 @@ $cache->save();
 
 **The pool instance is created only once.**
 
-> The `CachePoolFactory` accepts specific parameters for the underlying caching technology.  
-This library uses the [Koded Simple Cache][koded-cache-simple]. Please see the README in that repository.
+> `CachePool::use()` accepts specific parameters for the underlying caching technology.  
+This method uses the [Koded Simple Cache][koded-cache-simple] package.
+Please see the README in that repository for the specific arguments.
 
-You can grab the cache client with
+You can grab the cache client if you want to use the client directly
 
 ```php
 /** $var Psr\SimpleCache\CacheInterface $client */
@@ -65,7 +66,7 @@ $client = $cache->client();
 Deferring the items
 -------------------
 
-To postpone the cache items saving, and store all items "at once",
+To postpone the saving of the cache items (store all items "at once"),
 you can use the `saveDeferred()` method. These cache items are saved when you
 
 - execute `commit()`

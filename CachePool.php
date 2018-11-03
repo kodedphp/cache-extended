@@ -3,10 +3,7 @@
 namespace Koded\Caching;
 
 use Exception;
-use Koded\Caching\Client\CacheClientFactory;
-use Koded\Caching\Configuration\ConfigFactory;
-use Psr\Cache\CacheItemPoolInterface;
-use Psr\Cache\InvalidArgumentException;
+use Psr\Cache\{CacheItemPoolInterface, InvalidArgumentException};
 
 /**
  * CachePool creates instances of CacheItemPoolInterface classes.
@@ -44,13 +41,11 @@ final class CachePool
             return self::$instances[$ident];
         }
 
-        $factory = new CacheClientFactory(new ConfigFactory($parameters));
-
-        return self::$instances[$ident] = new class($factory, strtolower($client)) extends CacheItemPool
+        return self::$instances[$ident] = new class($client, $parameters) extends CacheItemPool
         {
-            public function __construct(CacheClientFactory $factory, string $client)
+            public function __construct(string $client, array $parameters)
             {
-                $this->client = $factory->new($client);
+                $this->client = simple_cache_factory($client, $parameters);
             }
         };
     }
