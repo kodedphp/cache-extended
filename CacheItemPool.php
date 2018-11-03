@@ -3,7 +3,6 @@
 namespace Koded\Caching;
 
 use Exception;
-use Koded\Caching\Client\CacheClientFactory;
 use Psr\Cache\{CacheItemInterface, CacheItemPoolInterface};
 use function Koded\Stdlib\now;
 
@@ -17,13 +16,14 @@ abstract class CacheItemPool implements CacheItemPoolInterface
     private $deferred = [];
 
 
-    abstract public function __construct(CacheClientFactory $factory, string $client);
+    abstract public function __construct(string $client, array $parameters);
 
     // @codeCoverageIgnoreStart
     public function __destruct()
     {
         $this->commit();
     }
+
     // @codeCoverageIgnoreEnd
 
     public function commit(): bool
