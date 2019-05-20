@@ -3,8 +3,8 @@ Koded - Extended Caching Library
 
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg)](https://php.net/)
 [![Build Status](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/build.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/f1aefebb27b1485dbeb2b00ffe7c77fc)](https://www.codacy.com/app/kodeart/cache-extended)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f1aefebb27b1485dbeb2b00ffe7c77fc)](https://www.codacy.com/app/kodeart/cache-extended)
 [![Latest Stable Version](https://img.shields.io/packagist/v/koded/cache-extended.svg)](https://packagist.org/packages/koded/cache-extended)
 [![Software license](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](LICENSE)
 
