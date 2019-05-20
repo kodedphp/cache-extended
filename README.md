@@ -1,11 +1,11 @@
 Koded - Extended Caching Library
 ================================
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg)](https://php.net/)
-[![Build Status](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/build.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/build-status/master)
+[![Latest Stable Version](https://img.shields.io/packagist/v/koded/cache-extended.svg)](https://packagist.org/packages/koded/cache-extended)
+[![Build Status](https://travis-ci.org/kodedphp/cache-extended.svg?branch=master)](https://travis-ci.org/kodedphp/cache-extended)
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/f1aefebb27b1485dbeb2b00ffe7c77fc)](https://www.codacy.com/app/kodeart/cache-extended)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f1aefebb27b1485dbeb2b00ffe7c77fc)](https://www.codacy.com/app/kodeart/cache-extended)
-[![Latest Stable Version](https://img.shields.io/packagist/v/koded/cache-extended.svg)](https://packagist.org/packages/koded/cache-extended)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.1-8892BF.svg)](https://php.net/)
 [![Software license](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](LICENSE)
 
 A [PSR-6][psr-6] caching library for PHP 7 using several caching technologies.
