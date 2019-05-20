@@ -1,0 +1,40 @@
+language: php
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+notifications:
+  email: false
+
+php:
+  - 7.1
+  - 7.2
+  - 7.3
+
+matrix:
+  fast_finish: true
+
+services:
+  - redis-server
+  - memcached
+
+env:
+  - REDIS_SERVER_HOST=127.0.0.1 REDIS_SERVER_PORT=6379 MEMCACHED_POOL=[["127.0.0.1",11211]]
+
+before_script:
+  - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension=redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - pecl install igbinary
+  - pecl install msgpack
+
+install:
+  - composer update -o --no-interaction --ignore-platform-reqs
+
+script:
+  - vendor/bin/phpunit --coverage-clover build/coverage/clover.xml
+
+after_success:
+  - travis_retry vendor/bin/codacycoverage clover build/coverage/clover.xml
