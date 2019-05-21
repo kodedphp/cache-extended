@@ -19,10 +19,11 @@
       "homepage": "http://kodeart.com"
     }
   ],
+  "prefer-stable": true,
   "require": {
     "php": "^7.3",
     "psr/cache": "~1",
-    "koded/cache-simple": "dev-2.0-dev"
+    "koded/cache-simple": "~2"
   },
   "autoload": {
     "psr-4": {
@@ -46,8 +47,6 @@
     "cache/integration-tests": "dev-master",
     "codacy/coverage": "dev-master"
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "extra": {
     "branch-alias": {
       "dev-master": "1.x-dev"
