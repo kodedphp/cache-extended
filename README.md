@@ -56,7 +56,7 @@ $cache->save();
 This method uses the [Koded Simple Cache][koded-cache-simple] package.
 Please see the README in that repository for the specific arguments.
 
-You can grab the cache client if you want to use the client directly
+You can grab the cache client if you want to use it directly
 
 ```php
 /** $var Psr\SimpleCache\CacheInterface $client */
@@ -74,7 +74,7 @@ you can use the `saveDeferred()` method. These cache items are saved when you
 
 **Keep in mind that `commit()` is not an atomic operation.**
 There is no guarantee that all items will be saved, because anything can
-happen while `save()` is called (network, client crash, etc).
+happen while `save()` runs (network, client crash, etc).
 
 ```php
 $cache->saveDeferred($event);
