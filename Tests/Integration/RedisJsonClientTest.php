@@ -2,8 +2,6 @@
 
 namespace Koded\Caching\Tests\Integration;
 
-require_once __DIR__ . '/../../vendor/koded/stdlib/functions-dev.php';
-
 use Koded\Caching\CachePool;
 use Koded\Stdlib\Interfaces\Serializer;
 use Psr\Cache\CacheItemPoolInterface;
