@@ -18,7 +18,7 @@ class RedisClientTest extends CachePoolIntegrationTest
         ]);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (false === extension_loaded('redis')) {
             $this->markTestSkipped('Redis extension is not loaded.');
