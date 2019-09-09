@@ -19,7 +19,7 @@ class MemcachedClientTest extends CachePoolIntegrationTest
         ]);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         if (false === extension_loaded('memcached')) {
             $this->markTestSkipped('Memcached extension is not loaded.');

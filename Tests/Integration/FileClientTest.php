@@ -22,7 +22,7 @@ class FileClientTest extends CachePoolIntegrationTest
         return CachePool::use('file');
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->dir = vfsStream::setup();
         parent::setUp();
