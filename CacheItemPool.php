@@ -23,7 +23,6 @@ abstract class CacheItemPool implements CacheItemPoolInterface
     {
         $this->commit();
     }
-
     // @codeCoverageIgnoreEnd
 
     public function commit(): bool
@@ -70,7 +69,6 @@ abstract class CacheItemPool implements CacheItemPoolInterface
 
             (function() {
                 $this->isHit = true;
-
                 return $this;
             })->call($item);
 
