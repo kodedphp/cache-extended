@@ -10,7 +10,7 @@ abstract class CacheItem implements CacheItemInterface
     /** @var bool */
     protected $isHit = false;
 
-    /** @var string */
+    /** @var string Expects a valid cache key name */
     private $key;
 
     /** @var mixed */
@@ -22,7 +22,6 @@ abstract class CacheItem implements CacheItemInterface
 
     public function __construct($key, ?int $ttl)
     {
-        verify_key($key);
         $this->key = $key;
         $this->expiresAt = $ttl;
     }
