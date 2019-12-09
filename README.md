@@ -3,8 +3,8 @@ Koded - Extended Caching Library
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/koded/cache-extended.svg)](https://packagist.org/packages/koded/cache-extended)
 [![Build Status](https://travis-ci.org/kodedphp/cache-extended.svg?branch=master)](https://travis-ci.org/kodedphp/cache-extended)
-[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/f1aefebb27b1485dbeb2b00ffe7c77fc)](https://www.codacy.com/app/kodeart/cache-extended)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f1aefebb27b1485dbeb2b00ffe7c77fc)](https://www.codacy.com/app/kodeart/cache-extended)
+[![Code Coverage](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/?branch=master)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
 [![Software license](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](LICENSE)
 
