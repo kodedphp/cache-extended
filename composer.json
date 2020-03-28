@@ -45,12 +45,6 @@
     "mikey179/vfsstream": "~1",
     "predis/predis": "dev-master",
     "cache/integration-tests": "dev-master",
-    "scrutinizer/ocular": "^1.6",
     "symfony/phpunit-bridge": "^4.4@dev"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.x-dev"
-    }
   }
 }
