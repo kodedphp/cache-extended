@@ -4,7 +4,6 @@ namespace Koded\Caching;
 
 use Exception;
 use Psr\Cache\{CacheItemInterface, CacheItemPoolInterface};
-use Psr\SimpleCache\CacheInterface;
 use function Koded\Stdlib\now;
 
 abstract class CacheItemPool implements CacheItemPoolInterface

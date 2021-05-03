@@ -59,7 +59,7 @@ Please see the README in that repository for the specific arguments.
 You can grab the cache client if you want to use it directly
 
 ```php
-/** $var Psr\SimpleCache\CacheInterface $client */
+/** $var Koded\Caching\Cache $client */
 $client = $cache->client();
 ```
 
