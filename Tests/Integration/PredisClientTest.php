@@ -18,7 +18,7 @@ class PredisClientTest extends CachePoolIntegrationTest
                                      [
                                          'host' => getenv('REDIS_SERVER_HOST'),
                                      ]);
-            $client->client()->connect();
+            $client->client()->client()->connect();
             return $client;
         } catch (CacheException $e) {
             $this->markTestSkipped($e->getMessage());

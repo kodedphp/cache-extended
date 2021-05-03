@@ -129,10 +129,10 @@ abstract class CacheItemPool implements CacheItemPoolInterface
      *
      * This method is not part of the PSR-6.
      *
-     * @return CacheInterface
+     * @return Cache
      */
-    public function client(): CacheInterface
+    public function client(): Cache
     {
-        return $this->client->client();
+        return $this->client;
     }
 }

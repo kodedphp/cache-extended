@@ -21,7 +21,7 @@ class PredisJsonClientTest extends CachePoolIntegrationTest
                                          'serializer' => Serializer::JSON,
                                          'binary' => Serializer::PHP,
                                      ]);
-            $client->client()->connect();
+            $client->client()->client()->connect();
             return $client;
         } catch (CacheException $e) {
             $this->markTestSkipped($e->getMessage());
