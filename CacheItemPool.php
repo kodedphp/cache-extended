@@ -4,6 +4,7 @@ namespace Koded\Caching;
 
 use Exception;
 use Psr\Cache\{CacheItemInterface, CacheItemPoolInterface};
+use Psr\SimpleCache\CacheInterface;
 use function Koded\Stdlib\now;
 
 abstract class CacheItemPool implements CacheItemPoolInterface
@@ -128,10 +129,10 @@ abstract class CacheItemPool implements CacheItemPoolInterface
      *
      * This method is not part of the PSR-6.
      *
-     * @return Cache
+     * @return CacheInterface
      */
-    public function client(): Cache
+    public function client(): CacheInterface
     {
-        return $this->client;
+        return $this->client->client();
     }
 }
