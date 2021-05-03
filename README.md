@@ -5,7 +5,7 @@ Koded - Extended Caching Library
 [![Build Status](https://travis-ci.org/kodedphp/cache-extended.svg?branch=master)](https://travis-ci.org/kodedphp/cache-extended)
 [![Code Coverage](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/?branch=master)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/kodedphp/cache-extended/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/kodedphp/cache-extended/?branch=master)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.0-8892BF.svg)](https://php.net/)
 [![Software license](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](LICENSE)
 
 A [PSR-6][psr-6] caching library for PHP 7 using several caching technologies.
@@ -15,7 +15,7 @@ Requirements
 ------------
 
 - Linux machine
-- PHP 7.1 or higher
+- PHP 8
 
 Recommended cache technologies are
 
@@ -59,7 +59,7 @@ Please see the README in that repository for the specific arguments.
 You can grab the cache client if you want to use it directly
 
 ```php
-/** $var Psr\SimpleCache\CacheInterface $client */
+/** $var Koded\Caching\Cache $client */
 $client = $cache->client();
 ```
 

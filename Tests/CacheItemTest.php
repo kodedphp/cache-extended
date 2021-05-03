@@ -1,12 +1,12 @@
 <?php
 
-namespace Koded\Caching;
+namespace Tests\Koded\Caching;
 
+use Koded\Caching\CachePool;
 use PHPUnit\Framework\TestCase;
 
 class CacheItemTest extends TestCase
 {
-
     public function test_expiresAfter_with_global_ttl()
     {
         $pool = CachePool::use('memory', ['ttl' => 60]);

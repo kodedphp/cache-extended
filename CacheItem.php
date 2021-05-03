@@ -4,21 +4,12 @@ namespace Koded\Caching;
 
 use Psr\Cache\CacheItemInterface;
 
-
 abstract class CacheItem implements CacheItemInterface
 {
-    /** @var bool */
-    protected $isHit = false;
-
-    /** @var string Expects a valid cache key name */
-    private $key;
-
-    /** @var mixed */
-    private $value;
-    
-    /** @var int Number of seconds for the expiration time */
-    private $expiresAt;
-
+    protected bool $isHit = false;
+    private string $key;
+    private mixed $value = null;
+    private ?int $expiresAt;
 
     public function __construct($key, ?int $ttl)
     {
@@ -26,48 +17,39 @@ abstract class CacheItem implements CacheItemInterface
         $this->expiresAt = $ttl;
     }
 
-
     public function getKey(): string
     {
         return $this->key;
     }
-
 
     public function get()
     {
         return $this->value;
     }
 
-
     public function isHit(): bool
     {
         return $this->isHit;
     }
 
-
     public function set($value)
     {
         $this->value = $value;
-
         return $this;
     }
 
-
-    public function expiresAfter($time)
+    public function expiresAfter($time): static
     {
         // The TTL is calculated in the cache client instance
         return $this->expiresAt($time);
     }
 
-
-    public function expiresAt($expiration)
+    public function expiresAt($expiration): static
     {
         $this->expiresAt = normalize_ttl($expiration ?? $this->expiresAt);
-
         if ($this->expiresAt < 1) {
             $this->isHit = false;
         }
-
         return $this;
     }
 

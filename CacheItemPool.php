@@ -6,15 +6,12 @@ use Exception;
 use Psr\Cache\{CacheItemInterface, CacheItemPoolInterface};
 use function Koded\Stdlib\now;
 
-
 abstract class CacheItemPool implements CacheItemPoolInterface
 {
-    /** @var Cache */
-    protected $client;
+    protected Cache $client;
 
     /** @var CacheItemInterface[] */
-    private $deferred = [];
-
+    private array $deferred = [];
 
     abstract public function __construct(string $client, array $parameters);
 
@@ -32,10 +29,8 @@ abstract class CacheItemPool implements CacheItemPoolInterface
                 unset($this->deferred[$key]);
             }
         }
-
         return empty($this->deferred);
     }
-
 
     public function save(CacheItemInterface $item): bool
     {
@@ -43,23 +38,19 @@ abstract class CacheItemPool implements CacheItemPoolInterface
         return $this->client->set($item->getKey(), $item->get(), $item->getExpiresAt());
     }
 
-
     public function getItems(array $keys = []): array
     {
         $items = [];
         foreach ($keys as $key) {
             $items[$key] = $this->getItem($key);
         }
-
         return $items;
     }
-
 
     public function getItem($key): CacheItemInterface
     {
         try {
             $item = new class($key, $this->client->getTtl()) extends CacheItem {};
-
             if (false === $this->client->has($key)) {
                 if (isset($this->deferred[$key])) {
                     return clone $this->deferred[$key];
@@ -79,7 +70,6 @@ abstract class CacheItemPool implements CacheItemPoolInterface
         }
     }
 
-
     public function hasItem($key): bool
     {
         try {
@@ -89,16 +79,13 @@ abstract class CacheItemPool implements CacheItemPoolInterface
         }
     }
 
-
     public function clear(): bool
     {
         if ($cleared = $this->client->clear()) {
             $this->deferred = [];
         }
-
         return $cleared;
     }
-
 
     public function deleteItems(array $keys): bool
     {
@@ -109,21 +96,17 @@ abstract class CacheItemPool implements CacheItemPoolInterface
         }
     }
 
-
     public function deleteItem($key): bool
     {
         try {
             if ($deleted = $this->client->delete($key)) {
                 unset($this->deferred[$key]);
             }
-
             return $deleted;
-
         } catch (Exception $e) {
             throw CachePoolException::from($e);
         }
     }
-
 
     public function saveDeferred(CacheItemInterface $item): bool
     {
@@ -138,5 +121,17 @@ abstract class CacheItemPool implements CacheItemPoolInterface
         })->call($item);
 
         return true;
+    }
+
+    /**
+     * Returns the instance of the underlying cache client.
+     *
+     * This method is not part of the PSR-6.
+     *
+     * @return Cache
+     */
+    public function client(): Cache
+    {
+        return $this->client;
     }
 }
