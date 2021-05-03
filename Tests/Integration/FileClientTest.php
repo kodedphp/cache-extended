@@ -1,6 +1,6 @@
 <?php
 
-namespace Koded\Caching\Tests\Integration;
+namespace Tests\Koded\Caching\Integration;
 
 use Koded\Caching\CachePool;
 use org\bovigo\vfs\{vfsStream, vfsStreamDirectory};
@@ -8,11 +8,7 @@ use Psr\Cache\CacheItemPoolInterface;
 
 class FileClientTest extends CachePoolIntegrationTest
 {
-
-    /**
-     * @var vfsStreamDirectory
-     */
-    private $dir;
+    private vfsStreamDirectory $dir;
 
     /**
      * @return CacheItemPoolInterface that is used in the tests

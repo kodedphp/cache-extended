@@ -1,9 +1,10 @@
 <?php
 
-namespace Koded\Caching\Tests\Integration;
+namespace Tests\Koded\Caching\Integration;
 
+use Koded\Caching\CacheException;
 use Koded\Caching\CachePool;
-use Koded\Stdlib\Interfaces\Serializer;
+use Koded\Stdlib\Serializer;
 use Psr\Cache\CacheItemPoolInterface;
 
 class PredisJsonClientTest extends CachePoolIntegrationTest
@@ -13,10 +14,17 @@ class PredisJsonClientTest extends CachePoolIntegrationTest
      */
     public function createCachePool()
     {
-        return CachePool::use('predis', [
-            'host'       => getenv('REDIS_SERVER_HOST'),
-            'serializer' => Serializer::JSON,
-            'binary'     => Serializer::PHP,
-        ]);
+        try {
+            $client = CachePool::use('predis',
+                                     [
+                                         'host' => getenv('REDIS_SERVER_HOST'),
+                                         'serializer' => Serializer::JSON,
+                                         'binary' => Serializer::PHP,
+                                     ]);
+            $client->client()->connect();
+            return $client;
+        } catch (CacheException $e) {
+            $this->markTestSkipped($e->getMessage());
+        }
     }
 }

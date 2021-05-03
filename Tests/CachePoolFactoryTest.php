@@ -1,21 +1,27 @@
 <?php
 
-namespace Koded\Caching;
+namespace Tests\Koded\Caching;
 
-use Koded\Caching\Client\{FileClient, MemcachedClient, MemoryClient, PredisClient, RedisClient};
+use Koded\Caching\Client\{FileClient, MemcachedClient, MemoryClient, PredisClient, RedisClient, ShmopClient};
+use Koded\Caching\CachePool;
 use PHPUnit\Framework\TestCase;
 
 class CachePoolFactoryTest extends TestCase
 {
-
     public function test_MemcachedClient()
     {
+        if (false === \extension_loaded('memcached')) {
+            $this->markTestSkipped('memcached extension is not loaded');
+        }
         $pool = CachePool::use('memcached');
         $this->assertAttributeInstanceOf(MemcachedClient::class, 'client', $pool);
     }
 
     public function test_RedisClient()
     {
+        if (false === \extension_loaded('redis')) {
+            $this->markTestSkipped('redis extension is not loaded');
+        }
         $pool = CachePool::use('redis', [
             'host' => getenv('REDIS_SERVER_HOST'),
         ]);
@@ -24,10 +30,22 @@ class CachePoolFactoryTest extends TestCase
 
     public function test_PredisClient()
     {
+        if (false === \extension_loaded('redis')) {
+            $this->markTestSkipped('redis extension is not loaded');
+        }
         $pool = CachePool::use('predis', [
             'host' => getenv('REDIS_SERVER_HOST'),
         ]);
         $this->assertAttributeInstanceOf(PredisClient::class, 'client', $pool);
+    }
+
+    public function test_ShmopClient()
+    {
+        if (false === \extension_loaded('shmop')) {
+            $this->markTestSkipped('shmop extension is not loaded');
+        }
+        $pool = CachePool::use('shmop');
+        $this->assertAttributeInstanceOf(ShmopClient::class, 'client', $pool);
     }
 
     public function test_MemoryClient()
