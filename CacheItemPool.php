@@ -122,4 +122,16 @@ abstract class CacheItemPool implements CacheItemPoolInterface
 
         return true;
     }
+
+    /**
+     * Returns the instance of the underlying cache client.
+     *
+     * This method is not part of the PSR-6.
+     *
+     * @return Cache
+     */
+    public function client(): Cache
+    {
+        return $this->client;
+    }
 }
